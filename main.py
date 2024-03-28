@@ -10,9 +10,10 @@ def read_csv(filename):
 
     Returns
     -------
-    list 
+    tuple
+      a tuple containing 2 lists
         list 1 - the header
-        list 2 - the data
+        list 2 - the data (a nested list)
     """
     filename = 'pre-u-enrolment-by-age.csv'
     with open(filename, 'r') as f:
@@ -62,39 +63,39 @@ def filter_gender(enrolment_by_age, sex):
         return F_sexrecord
 
 
+
 # Part 3
 def sum_by_year(enrolment_data):
     """
+    Adds up the total enrolment for each year, not considering other things
+
+    Returns
+    --------
+    A list of lists [year, total_enrolment]
     """
     enrolment_by_year_list = []
     count = 0
     for line in enrolment_data:
       for x in range(1984, 2018):
-        if int(x) in line[0]:
+        if x == line[0]:
           count = count + 1
-      enrolment_by_year_list.append(x, count)
-      return enrolment_by_year_list
-      
+      enrolment_by_year_list.append([x, count])
+    return enrolment_by_year_list
+
+
 # # Part 4
 def write_csv(filename, header, data):
     """
+    Writes header, data to filename 
+
+    Returns
+    -------
+    Number of lines written 
     """
-    filename = 'total-enrolment-by-year.csv'
     with open(filename, 'w') as f:
-      f.writelines(header)
-      count = 0
+      header_out = ','.join(header)
+      f.write(header_out)
       for rows in data:
-        for y in range(len(rows)):
-          rows[y] = str(rows[y])
-        f.writelines(','.join(rows))
-        count += 1
-      
-    return count
+        line_out = str(','.join(str(e) for e in data))
+        f.write(line_out)        
     
-#     pass
-
-
-# # TESTING
-# # You can write code below to call the above functions
-# # and test the output
-
